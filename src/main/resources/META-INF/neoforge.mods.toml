@@ -1,0 +1,27 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "MIT"
+
+[[mods]]
+modId = "chatbinds"
+version = "1.0.0"
+displayName = "Chat Binds"
+authors = "You"
+description = '''
+Бинды на любую клавишу или кнопку мыши: отправляют сообщение или команду в чат.
+Удобное меню для добавления, редактирования и удаления биндов.
+'''
+
+[[dependencies.chatbinds]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1.0,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.chatbinds]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1,1.22)"
+ordering = "NONE"
+side = "CLIENT"
