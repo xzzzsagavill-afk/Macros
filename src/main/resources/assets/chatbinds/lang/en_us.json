@@ -1,0 +1,36 @@
+{
+  "key.chatbinds.open": "Open binds menu",
+  "key.categories.chatbinds": "Chat Binds",
+
+  "chatbinds.screen.title": "Chat Binds",
+  "chatbinds.button.add": "Add",
+  "chatbinds.button.edit": "Edit",
+  "chatbinds.button.delete": "Delete",
+  "chatbinds.button.toggle": "Enable / disable",
+  "chatbinds.button.done": "Done",
+  "chatbinds.button.save": "Save",
+  "chatbinds.button.cancel": "Cancel",
+
+  "chatbinds.list.empty": "No binds yet. Press \"Add\"!",
+  "chatbinds.list.on": "ON",
+  "chatbinds.list.off": "OFF",
+  "chatbinds.list.unnamed": "Unnamed",
+
+  "chatbinds.delete.title": "Delete bind?",
+  "chatbinds.delete.text": "\"%s\" will be permanently removed.",
+
+  "chatbinds.edit.title_new": "New bind",
+  "chatbinds.edit.title_edit": "Edit bind",
+  "chatbinds.edit.name": "Name",
+  "chatbinds.edit.name_hint": "e.g. Home",
+  "chatbinds.edit.message": "Message or command",
+  "chatbinds.edit.message_hint": "/home or any text",
+  "chatbinds.edit.help": "Start with \"/\" to send a command. \";;\" sends several messages in a row. Placeholders: {x} {y} {z} {player}.",
+  "chatbinds.edit.key": "Key: %s",
+  "chatbinds.edit.press_key": "Press a key or mouse button... (Esc to cancel)",
+  "chatbinds.edit.enabled": "Enabled",
+  "chatbinds.edit.conflict_bind": "This key is already used by bind \"%s\"",
+  "chatbinds.edit.conflict_vanilla": "This key is also used in game: %s",
+
+  "chatbinds.key.none": "Not set"
+}
