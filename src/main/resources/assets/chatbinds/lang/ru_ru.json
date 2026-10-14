@@ -1,0 +1,36 @@
+{
+  "key.chatbinds.open": "Открыть меню биндов",
+  "key.categories.chatbinds": "Chat Binds",
+
+  "chatbinds.screen.title": "Бинды чата",
+  "chatbinds.button.add": "Добавить",
+  "chatbinds.button.edit": "Изменить",
+  "chatbinds.button.delete": "Удалить",
+  "chatbinds.button.toggle": "Вкл / выкл",
+  "chatbinds.button.done": "Готово",
+  "chatbinds.button.save": "Сохранить",
+  "chatbinds.button.cancel": "Отмена",
+
+  "chatbinds.list.empty": "Биндов пока нет. Нажми «Добавить»!",
+  "chatbinds.list.on": "ВКЛ",
+  "chatbinds.list.off": "ВЫКЛ",
+  "chatbinds.list.unnamed": "Без названия",
+
+  "chatbinds.delete.title": "Удалить бинд?",
+  "chatbinds.delete.text": "«%s» будет удалён без возможности восстановления.",
+
+  "chatbinds.edit.title_new": "Новый бинд",
+  "chatbinds.edit.title_edit": "Редактирование бинда",
+  "chatbinds.edit.name": "Название",
+  "chatbinds.edit.name_hint": "Например: Домой",
+  "chatbinds.edit.message": "Сообщение или команда",
+  "chatbinds.edit.message_hint": "/home или любой текст",
+  "chatbinds.edit.help": "Начни с «/», чтобы отправить команду. «;;» — несколько сообщений подряд. Подстановки: {x} {y} {z} {player}.",
+  "chatbinds.edit.key": "Клавиша: %s",
+  "chatbinds.edit.press_key": "Нажми клавишу или кнопку мыши... (Esc — отмена)",
+  "chatbinds.edit.enabled": "Включён",
+  "chatbinds.edit.conflict_bind": "Эта клавиша уже занята биндом «%s»",
+  "chatbinds.edit.conflict_vanilla": "Клавиша также используется в игре: %s",
+
+  "chatbinds.key.none": "Не назначена"
+}
