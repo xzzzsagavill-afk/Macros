@@ -13,6 +13,8 @@ import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
+import java.util.Locale;
+
 public class BindListScreen extends Screen {
     private final Screen parent;
     private BindList list;
@@ -164,7 +166,15 @@ public class BindListScreen extends Screen {
                 g.drawString(f, status, left + width - statusW - 6, top + 3, keyColor, false);
 
                 g.drawString(f, f.plainSubstrByWidth(title, width - statusW - 20), left + 4, top + 3, nameColor, false);
-                g.drawString(f, KeyUtil.label(bind.key, bind.mods), left + 4, top + 14, keyColor, false);
+
+                Component keyLabel = KeyUtil.label(bind.key, bind.mods);
+                g.drawString(f, keyLabel, left + 4, top + 14, keyColor, false);
+                if (bind.mode != Bind.Mode.ONCE) {
+                    Component modeLabel = Component.translatable(
+                            "chatbinds.mode." + bind.mode.name().toLowerCase(Locale.ROOT));
+                    g.drawString(f, modeLabel, left + 4 + f.width(keyLabel) + 8, top + 14, 0xFFAA00, false);
+                }
+
                 g.drawString(f, f.plainSubstrByWidth(bind.message, width - 12), left + 4, top + 25, 0xA0A0A0, false);
             }
 
@@ -189,4 +199,4 @@ public class BindListScreen extends Screen {
             }
         }
     }
-            }
+}
