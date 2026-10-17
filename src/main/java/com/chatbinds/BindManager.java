@@ -44,6 +44,8 @@ public final class BindManager {
                     if (b.name == null) b.name = "";
                     if (b.key == null) b.key = KeyUtil.NO_KEY;
                     if (b.message == null) b.message = "";
+                    if (b.mode == null) b.mode = Bind.Mode.ONCE;
+                    if (b.interval < 1) b.interval = 5;
                     BINDS.add(b);
                 }
             }
