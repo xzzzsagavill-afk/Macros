@@ -23,14 +23,35 @@
   "chatbinds.edit.title_edit": "Edit bind",
   "chatbinds.edit.name": "Name",
   "chatbinds.edit.name_hint": "e.g. Home",
-  "chatbinds.edit.message": "Message or command",
-  "chatbinds.edit.message_hint": "/home or any text",
-  "chatbinds.edit.help": "Start with \"/\" to send a command. \";;\" sends several messages in a row. Placeholders: {x} {y} {z} {player}.",
+  "chatbinds.edit.message": "Message or actions",
+  "chatbinds.edit.message_hint": "/home or [rmb] ;; [slot 2] ;; [lmb]",
+  "chatbinds.edit.help": "Steps are separated by \";;\". \"/command\" or text goes to chat. Actions: [rmb] [lmb] [slot 5] [wait 10]. [rmb 20] holds for 20 ticks.",
+  "chatbinds.edit.add_rmb": "+ RMB",
+  "chatbinds.edit.add_rmb.tip": "Add step: right click",
+  "chatbinds.edit.add_lmb": "+ LMB",
+  "chatbinds.edit.add_lmb.tip": "Add step: left click",
+  "chatbinds.edit.add_wait": "+ Wait",
+  "chatbinds.edit.add_wait.tip": "Add step: wait 10 ticks",
+  "chatbinds.edit.add_slot.tip": "Add step: select hotbar slot %s",
+  "chatbinds.edit.interval": "Delay between steps, ticks:",
+  "chatbinds.edit.mode": "Mode",
   "chatbinds.edit.key": "Key: %s",
   "chatbinds.edit.press_key": "Press a key or mouse button... (Esc to cancel)",
   "chatbinds.edit.enabled": "Enabled",
   "chatbinds.edit.conflict_bind": "This key is already used by bind \"%s\"",
   "chatbinds.edit.conflict_vanilla": "This key is also used in game: %s",
+
+  "chatbinds.mode.once": "Once",
+  "chatbinds.mode.toggle": "Loop (toggle)",
+  "chatbinds.mode.hold": "While held",
+
+  "chatbinds.toggle.on": "Bind \"%s\": on",
+  "chatbinds.toggle.off": "Bind \"%s\": off",
+
+  "chatbinds.token.rmb": "rmb",
+  "chatbinds.token.lmb": "lmb",
+  "chatbinds.token.slot": "slot",
+  "chatbinds.token.wait": "wait",
 
   "chatbinds.key.none": "Not set"
 }
