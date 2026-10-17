@@ -23,14 +23,35 @@
   "chatbinds.edit.title_edit": "Редактирование бинда",
   "chatbinds.edit.name": "Название",
   "chatbinds.edit.name_hint": "Например: Домой",
-  "chatbinds.edit.message": "Сообщение или команда",
-  "chatbinds.edit.message_hint": "/home или любой текст",
-  "chatbinds.edit.help": "Начни с «/», чтобы отправить команду. «;;» — несколько сообщений подряд. Подстановки: {x} {y} {z} {player}.",
+  "chatbinds.edit.message": "Сообщение или действия",
+  "chatbinds.edit.message_hint": "/home или [пкм] ;; [слот 2] ;; [лкм]",
+  "chatbinds.edit.help": "Шаги разделяются через «;;». «/команда» или текст — чат. Действия: [пкм] [лкм] [слот 5] [ждать 10]. [пкм 20] — зажать на 20 тиков.",
+  "chatbinds.edit.add_rmb": "+ ПКМ",
+  "chatbinds.edit.add_rmb.tip": "Добавить шаг: клик правой кнопкой",
+  "chatbinds.edit.add_lmb": "+ ЛКМ",
+  "chatbinds.edit.add_lmb.tip": "Добавить шаг: клик левой кнопкой",
+  "chatbinds.edit.add_wait": "+ Пауза",
+  "chatbinds.edit.add_wait.tip": "Добавить шаг: пауза 10 тиков",
+  "chatbinds.edit.add_slot.tip": "Добавить шаг: выбрать слот хотбара %s",
+  "chatbinds.edit.interval": "Задержка между шагами, тиков:",
+  "chatbinds.edit.mode": "Режим",
   "chatbinds.edit.key": "Клавиша: %s",
   "chatbinds.edit.press_key": "Нажми клавишу или кнопку мыши... (Esc — отмена)",
   "chatbinds.edit.enabled": "Включён",
   "chatbinds.edit.conflict_bind": "Эта клавиша уже занята биндом «%s»",
   "chatbinds.edit.conflict_vanilla": "Клавиша также используется в игре: %s",
+
+  "chatbinds.mode.once": "Один раз",
+  "chatbinds.mode.toggle": "Повтор (вкл/выкл)",
+  "chatbinds.mode.hold": "Пока зажата",
+
+  "chatbinds.toggle.on": "Бинд «%s»: включён",
+  "chatbinds.toggle.off": "Бинд «%s»: выключен",
+
+  "chatbinds.token.rmb": "пкм",
+  "chatbinds.token.lmb": "лкм",
+  "chatbinds.token.slot": "слот",
+  "chatbinds.token.wait": "ждать",
 
   "chatbinds.key.none": "Не назначена"
 }
