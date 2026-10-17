@@ -37,13 +37,13 @@ public final class ClientEvents {
         int mods = modifiers & KeyUtil.MASK & ~ownBit;
         for (Bind b : BindManager.all()) {
             if (b.enabled && b.mods == mods && b.key.equals(keyName)) {
-                ChatSender.run(b);
+                ScriptEngine.trigger(b);
             }
         }
     }
 
-    public static void onTick(ClientTickEvent.Post event) {
-        ChatSender.tick();
+    public static void onTick(ClientTickEvent.Pre event) {
+        ScriptEngine.tick();
         Minecraft mc = Minecraft.getInstance();
         while (OPEN_MENU != null && OPEN_MENU.consumeClick()) {
             if (mc.screen == null && mc.player != null) {
