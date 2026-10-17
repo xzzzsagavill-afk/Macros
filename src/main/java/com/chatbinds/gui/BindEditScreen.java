@@ -10,9 +10,12 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
+
+import java.util.Locale;
 
 public class BindEditScreen extends Screen {
     private final Screen parent;
@@ -23,9 +26,12 @@ public class BindEditScreen extends Screen {
     private String key;
     private int mods;
     private boolean enabled;
+    private Bind.Mode mode;
+    private int interval;
 
     private EditBox nameBox;
     private EditBox messageBox;
+    private EditBox intervalBox;
     private Button keyButton;
     private Button saveButton;
 
@@ -42,17 +48,35 @@ public class BindEditScreen extends Screen {
             key = editing.key;
             mods = editing.mods;
             enabled = editing.enabled;
+            mode = editing.mode;
+            interval = editing.interval;
         } else {
             name = "";
             message = "";
             key = KeyUtil.NO_KEY;
             mods = 0;
             enabled = true;
+            mode = Bind.Mode.ONCE;
+            interval = 5;
         }
     }
 
     private int top() {
-        return Math.max(8, this.height / 2 - 105);
+        return Math.max(4, this.height / 2 - 131);
+    }
+
+    private static String token(String langKey) {
+        return Component.translatable(langKey).getString();
+    }
+
+    private void insert(String piece) {
+        String cur = messageBox.getValue();
+        String sep;
+        if (cur.isBlank()) sep = "";
+        else if (cur.trim().endsWith(";;")) sep = " ";
+        else sep = " ;; ";
+        messageBox.setValue(cur + sep + piece);
+        setFocused(messageBox);
     }
 
     @Override
@@ -61,15 +85,17 @@ public class BindEditScreen extends Screen {
         int left = cx - 150;
         int top = top();
 
-        nameBox = new EditBox(font, left, top + 34, 300, 20, Component.translatable("chatbinds.edit.name"));
+        // Название
+        nameBox = new EditBox(font, left, top + 24, 300, 20, Component.translatable("chatbinds.edit.name"));
         nameBox.setMaxLength(64);
         nameBox.setHint(Component.translatable("chatbinds.edit.name_hint").withStyle(ChatFormatting.DARK_GRAY));
         nameBox.setValue(name);
         nameBox.setResponder(s -> name = s);
         addRenderableWidget(nameBox);
 
-        messageBox = new EditBox(font, left, top + 74, 300, 20, Component.translatable("chatbinds.edit.message"));
-        messageBox.setMaxLength(256);
+        // Сообщение / цепочка действий
+        messageBox = new EditBox(font, left, top + 58, 300, 20, Component.translatable("chatbinds.edit.message"));
+        messageBox.setMaxLength(512);
         messageBox.setHint(Component.translatable("chatbinds.edit.message_hint").withStyle(ChatFormatting.DARK_GRAY));
         messageBox.setValue(message);
         messageBox.setResponder(s -> {
@@ -78,19 +104,65 @@ public class BindEditScreen extends Screen {
         });
         addRenderableWidget(messageBox);
 
+        // Кнопки быстрой вставки шагов
+        addRenderableWidget(Button.builder(Component.translatable("chatbinds.edit.add_rmb"),
+                        b -> insert("[" + token("chatbinds.token.rmb") + "]"))
+                .bounds(left, top + 82, 98, 20)
+                .tooltip(Tooltip.create(Component.translatable("chatbinds.edit.add_rmb.tip"))).build());
+        addRenderableWidget(Button.builder(Component.translatable("chatbinds.edit.add_lmb"),
+                        b -> insert("[" + token("chatbinds.token.lmb") + "]"))
+                .bounds(left + 101, top + 82, 98, 20)
+                .tooltip(Tooltip.create(Component.translatable("chatbinds.edit.add_lmb.tip"))).build());
+        addRenderableWidget(Button.builder(Component.translatable("chatbinds.edit.add_wait"),
+                        b -> insert("[" + token("chatbinds.token.wait") + " 10]"))
+                .bounds(left + 202, top + 82, 98, 20)
+                .tooltip(Tooltip.create(Component.translatable("chatbinds.edit.add_wait.tip"))).build());
+
+        // Слоты хотбара 1-9
+        for (int i = 1; i <= 9; i++) {
+            final int n = i;
+            addRenderableWidget(Button.builder(Component.literal(String.valueOf(n)),
+                            b -> insert("[" + token("chatbinds.token.slot") + " " + n + "]"))
+                    .bounds(left + (i - 1) * 33, top + 104, 30, 20)
+                    .tooltip(Tooltip.create(Component.translatable("chatbinds.edit.add_slot.tip", n))).build());
+        }
+
+        // Задержка между шагами
+        intervalBox = new EditBox(font, left + 200, top + 168, 100, 20, Component.translatable("chatbinds.edit.interval"));
+        intervalBox.setMaxLength(4);
+        intervalBox.setFilter(s -> s.isEmpty() || s.matches("\\d{1,4}"));
+        intervalBox.setValue(String.valueOf(interval));
+        intervalBox.setResponder(s -> {
+            try {
+                interval = Integer.parseInt(s);
+            } catch (NumberFormatException e) {
+                interval = 0;
+            }
+        });
+        addRenderableWidget(intervalBox);
+
+        // Клавиша
         keyButton = addRenderableWidget(Button.builder(Component.empty(), b -> {
             listening = true;
             pendingModifierKey = -1;
             updateKeyButton();
-        }).bounds(left, top + 130, 300, 20).build());
+        }).bounds(left, top + 192, 300, 20).build());
 
-        addRenderableWidget(CycleButton.onOffBuilder(enabled).create(left, top + 154, 300, 20,
+        // Режим и включение
+        addRenderableWidget(CycleButton.builder((Bind.Mode m) ->
+                        Component.translatable("chatbinds.mode." + m.name().toLowerCase(Locale.ROOT)))
+                .withValues(Bind.Mode.values())
+                .withInitialValue(mode)
+                .create(left, top + 216, 148, 20, Component.translatable("chatbinds.edit.mode"),
+                        (btn, value) -> mode = value));
+        addRenderableWidget(CycleButton.onOffBuilder(enabled).create(left + 152, top + 216, 148, 20,
                 Component.translatable("chatbinds.edit.enabled"), (btn, value) -> enabled = value));
 
+        // Сохранить / отмена
         saveButton = addRenderableWidget(Button.builder(Component.translatable("chatbinds.button.save"),
-                b -> save()).bounds(left, top + 184, 148, 20).build());
+                b -> save()).bounds(left, top + 242, 148, 20).build());
         addRenderableWidget(Button.builder(Component.translatable("chatbinds.button.cancel"),
-                b -> onClose()).bounds(left + 152, top + 184, 148, 20).build());
+                b -> onClose()).bounds(left + 152, top + 242, 148, 20).build());
 
         setInitialFocus(editing == null ? nameBox : messageBox);
         updateKeyButton();
@@ -127,6 +199,8 @@ public class BindEditScreen extends Screen {
         b.key = key;
         b.mods = mods;
         b.enabled = enabled;
+        b.mode = mode;
+        b.interval = Math.max(1, Math.min(1200, interval));
         if (editing == null) BindManager.all().add(b);
         BindManager.save();
         if (parent instanceof BindListScreen list) list.select(b);
@@ -192,14 +266,15 @@ public class BindEditScreen extends Screen {
         int left = width / 2 - 150;
         int top = top();
 
-        g.drawCenteredString(font, title, width / 2, top + 6, 0xFFFFFF);
-        g.drawString(font, Component.translatable("chatbinds.edit.name"), left, top + 22, 0xA0A0A0, false);
-        g.drawString(font, Component.translatable("chatbinds.edit.message"), left, top + 62, 0xA0A0A0, false);
-        g.drawWordWrap(font, Component.translatable("chatbinds.edit.help"), left, top + 98, 300, 0x707070);
+        g.drawCenteredString(font, title, width / 2, top + 4, 0xFFFFFF);
+        g.drawString(font, Component.translatable("chatbinds.edit.name"), left, top + 14, 0xA0A0A0, false);
+        g.drawString(font, Component.translatable("chatbinds.edit.message"), left, top + 48, 0xA0A0A0, false);
+        g.drawWordWrap(font, Component.translatable("chatbinds.edit.help"), left, top + 128, 300, 0x707070);
+        g.drawString(font, Component.translatable("chatbinds.edit.interval"), left, top + 174, 0xA0A0A0, false);
 
         Component warning = conflictWarning();
         if (warning != null && !listening) {
-            g.drawCenteredString(font, warning, width / 2, top + 116, 0xFFAA00);
+            g.drawCenteredString(font, warning, width / 2, top + 157, 0xFFAA00);
         }
     }
 
@@ -226,4 +301,4 @@ public class BindEditScreen extends Screen {
     public void onClose() {
         minecraft.setScreen(parent);
     }
-    }
+}
